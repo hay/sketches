@@ -4,12 +4,12 @@ class Sound {
     AudioPlayer player;
     Minim minim;
 
-    void setup() {
-        minim = new Minim(this);
+    Sound(PApplet parent) {
+        minim = new Minim(parent);
     }
 
     void play(String soundFile) {
-        // player = minim.loadFile("sounds/" + soundFile + ".mp3");
-        // player.play();
+        player = minim.loadFile("data/" + soundFile + ".mp3");
+        player.play();
     }
 }
