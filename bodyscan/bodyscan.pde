@@ -1,8 +1,10 @@
+import SimpleOpenNI.*;
+
 Modus modus;
 Camera camera;
-final boolean CAMERA_ENABLED = false;
+final boolean CAMERA_ENABLED = true;
 int timeout = -1;
-final int TIMEOUT_TIME = 200;
+final int TIMEOUT_TIME = 100;
 
 void setup() {
     println("Setup");
@@ -10,7 +12,7 @@ void setup() {
     size(640, 480, P3D); // Beamer Sebastiaan is 1024x768
 
     if (CAMERA_ENABLED) {
-        camera = new Camera(this);
+        camera = new Camera(new SimpleOpenNI(this));
     }
 
     modus = new Modus(this);
@@ -46,6 +48,10 @@ void draw() {
 
     if (CAMERA_ENABLED) {
         modus.draw(camera.getNumberOfUsers());
+
+        if (camera.getNumberOfUsers() == 0) {
+            modus.set(Modi.EMPTY);
+        }
     } else {
         modus.draw(-1);
     }

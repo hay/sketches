@@ -1,5 +1,5 @@
 static class Modi {
-    static int DEMO = 1;
+    static int EMPTY = 1;
     static int DETECTED_PERSON = 2;
     static int HAS_SKELETON = 3;
     static int SCANNING = 4;
@@ -14,7 +14,7 @@ class Modus {
 
     Modus(PApplet parent) {
         println("Setup Modus");
-        modus = Modi.DEMO;
+        modus = Modi.EMPTY;
         font = createFont("HelveticaNeue", 24);
         textFont(font);
         sound = new Sound(parent);
@@ -25,7 +25,7 @@ class Modus {
         fill(255);
         String text = "";
 
-        if (modus == Modi.DEMO) {
+        if (modus == Modi.EMPTY) {
             text = "Please enter the scanner...";
         }
 
@@ -34,7 +34,7 @@ class Modus {
         }
 
         if (modus == Modi.HAS_SKELETON) {
-            text = "Detected body points";
+            text = "Detected body points. Please hold still now!";
         }
 
         if (modus == Modi.SCANNING) {
@@ -52,7 +52,7 @@ class Modus {
     }
 
     void playSound() {
-        if (modus == Modi.DEMO) {
+        if (modus == Modi.EMPTY) {
             sound.play("system_error");
         }
 

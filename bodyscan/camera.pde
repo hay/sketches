@@ -1,5 +1,3 @@
-import SimpleOpenNI.*;
-
 class Camera {
     SimpleOpenNI ctx;
     float zoomF = 0.3f;
@@ -8,10 +6,10 @@ class Camera {
     float rotatingDelta = 0.01f;
     int skipPoint = 10;
 
-    Camera(PApplet parent) {
+    Camera(SimpleOpenNI initCtx) {
         println("Setup Camera");
 
-        ctx = new SimpleOpenNI(parent);
+        ctx = initCtx;
 
         if(ctx.isInit() == false)  {
             println("Can't init SimpleOpenNI, maybe the camera is not connected!");
@@ -23,25 +21,11 @@ class Camera {
         ctx.enableDepth();
         ctx.enableUser();
         ctx.enableRGB();
+        strokeWeight(5);
     }
 
     void update() {
         ctx.update();
-    }
-
-    void onNewUser(SimpleOpenNI ctx, int userId) {
-        println("new user: " + userId);
-        modus.set(Modi.DETECTED_PERSON);
-        ctx.startTrackingSkeleton(userId);
-    }
-
-    // For some reason, this never happens!
-    void onLostUser(int userId) {
-        println("lost user: " + userId);
-    }
-
-    void onVisibleUser(int userId) {
-        println("visible user: " + userId);
     }
 
     int getNumberOfUsers() {
@@ -49,6 +33,8 @@ class Camera {
     }
 
     void drawSkeleton(int userId) {
+        stroke(255, 0, 0);
+
         ctx.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
         ctx.drawLimb(userId, SimpleOpenNI.SKEL_NECK, SimpleOpenNI.SKEL_LEFT_SHOULDER);
@@ -105,7 +91,7 @@ class Camera {
         endShape();
 
         // Done scanning?
-        if (rotY > 6) {
+        if (rotY > 12) {
             rotY = 0;
             modus.set(Modi.RESULT);
             perspective();
@@ -113,23 +99,26 @@ class Camera {
     }
 
     void drawVideo() {
-        if (!CAMERA_ENABLED) {
-            return;
+        if (modus.is(Modi.HAS_SKELETON)) {
+            image(ctx.userImage(),0,0);
+        } else {
+            image(ctx.rgbImage(),0,0);
         }
-
-        image(ctx.rgbImage(),0,0);
 
         int[] userList = ctx.getUsers();
 
         for (int i=0 ; i < userList.length;i++) {
-            if (ctx.isTrackingSkeleton(userList[i])) {
+            int userId = userList[i];
+
+            if (ctx.isTrackingSkeleton(userId)) {
                 if (!modus.is(Modi.RESULT)) {
                     modus.set(Modi.HAS_SKELETON);
                 }
 
-                drawSkeleton(userList[i]);
+                drawSkeleton(userId);
             } else {
                 modus.set(Modi.DETECTED_PERSON);
+                ctx.startTrackingSkeleton(userId);
             }
         }
     }
