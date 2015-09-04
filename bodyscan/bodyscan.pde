@@ -1,6 +1,8 @@
 Modus modus;
 Camera camera;
 final boolean CAMERA_ENABLED = false;
+int timeout = -1;
+final int TIMEOUT_TIME = 200;
 
 void setup() {
     println("Setup");
@@ -22,7 +24,14 @@ void draw() {
     }
 
     if (modus.is(Modi.HAS_SKELETON)) {
-        modus.set(Modi.SCANNING);
+        if (timeout == -1) {
+            timeout = TIMEOUT_TIME;
+        } else if (timeout > 0) {
+            timeout--;
+        } else if (timeout == 0) {
+            timeout = -1;
+            modus.set(Modi.SCANNING);
+        }
     }
 
     if (modus.is(Modi.SCANNING)) {
