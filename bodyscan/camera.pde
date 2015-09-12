@@ -21,7 +21,6 @@ class Camera {
         ctx.enableDepth();
         ctx.enableUser();
         ctx.enableRGB();
-        strokeWeight(5);
     }
 
     void update() {
@@ -33,7 +32,8 @@ class Camera {
     }
 
     void drawSkeleton(int userId) {
-        stroke(255, 0, 0);
+        strokeWeight(15);
+        stroke(255);
 
         ctx.drawLimb(userId, SimpleOpenNI.SKEL_HEAD, SimpleOpenNI.SKEL_NECK);
 
@@ -73,6 +73,7 @@ class Camera {
         translate(0,0,-1500);  // set the rotation center of the scene 1000 infront of the camera
 
         stroke(255);
+        strokeWeight(5);
 
         PVector[] realWorldMap = ctx.depthMapRealWorld();
 
@@ -99,7 +100,7 @@ class Camera {
     }
 
     void drawVideo() {
-        if (modus.is(Modi.HAS_SKELETON)) {
+        if (modus.is(Modi.HAS_SKELETON) || modus.is(Modi.RESULT)) {
             image(ctx.userImage(),0,0);
         } else {
             image(ctx.rgbImage(),0,0);
