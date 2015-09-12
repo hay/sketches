@@ -53,8 +53,6 @@ class Modus {
 
         textAlign(LEFT);
         text(text, 10, 30);
-        textAlign(RIGHT);
-        text(nrOfUsers, width - 10, 30);
     }
 
     void playSound() {
@@ -80,10 +78,6 @@ class Modus {
 
         if (modus == Modi.RESULT) {
             sound.play("scanning_complete");
-
-            if (result.getRisk() == "High") {
-                // sound.play("alarm");
-            }
         }
     }
 
@@ -118,6 +112,10 @@ class Modus {
             if (modus == Modi.RESULT) {
                 result = new Result();
                 resultText = result.getText();
+
+                if (result.getRisk() == "High") {
+                    sound.play("alarm");
+                }
             }
         } else {
             println("Not a valid modus: " + newModus);

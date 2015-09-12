@@ -3,7 +3,7 @@ import SimpleOpenNI.*;
 Modus modus;
 Camera camera;
 final boolean CAMERA_ENABLED = false;
-final boolean SOUND_ENABLED = false;
+final boolean SOUND_ENABLED = true;
 int timeout = -1;
 final int TIMEOUT_TIME = 100;
 
