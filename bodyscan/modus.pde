@@ -11,11 +11,12 @@ class Modus {
     int modus;
     PFont font;
     Sound sound;
+    String resultText;
 
     Modus(PApplet parent) {
         println("Setup Modus");
         modus = Modi.EMPTY;
-        font = createFont("HelveticaNeue", 24);
+        font = createFont("OCRAStd", 27);
         textFont(font);
         sound = new Sound(parent);
         playSound();
@@ -34,15 +35,15 @@ class Modus {
         }
 
         if (modus == Modi.HAS_SKELETON) {
-            text = "Detected body points. Please hold still now!";
+            text = "Detected body points.\nPlease hold still now!";
         }
 
         if (modus == Modi.SCANNING) {
-            text = "Now scanning, please hold still...";
+            text = "Now scanning,\nplease hold still...";
         }
 
         if (modus == Modi.RESULT) {
-            sound.play("scanning_complete");
+            text = resultText;
         }
 
         textAlign(LEFT);
@@ -52,6 +53,10 @@ class Modus {
     }
 
     void playSound() {
+        if (!SOUND_ENABLED) {
+            return;
+        }
+
         if (modus == Modi.EMPTY) {
             sound.play("system_error");
         }
@@ -90,6 +95,11 @@ class Modus {
             println("Setting modus to " + newModus);
             modus = newModus;
             playSound();
+
+            if (modus == Modi.RESULT) {
+                Result result = new Result();
+                resultText = result.getText();
+            }
         } else {
             println("Not a valid modus: " + newModus);
         }

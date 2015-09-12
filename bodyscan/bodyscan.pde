@@ -2,7 +2,8 @@ import SimpleOpenNI.*;
 
 Modus modus;
 Camera camera;
-final boolean CAMERA_ENABLED = true;
+final boolean CAMERA_ENABLED = false;
+final boolean SOUND_ENABLED = false;
 int timeout = -1;
 final int TIMEOUT_TIME = 100;
 
@@ -42,10 +43,6 @@ void draw() {
         if (CAMERA_ENABLED) camera.drawVideo();
     }
 
-    if (modus.is(Modi.RESULT)) {
-        drawResult();
-    }
-
     if (CAMERA_ENABLED) {
         modus.draw(camera.getNumberOfUsers());
 
@@ -57,11 +54,11 @@ void draw() {
     }
 }
 
-void drawResult() {
-    text("Results", 10, 30);
-}
-
 void keyPressed() {
+    if (key == 'q') {
+        exit();
+    }
+
     int keyModus = int(str(key));
     modus.set(keyModus);
 }
