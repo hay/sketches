@@ -12,11 +12,12 @@ class Modus {
     PFont font;
     Sound sound;
     String resultText;
+    Result result;
 
     Modus(PApplet parent) {
         println("Setup Modus");
         modus = Modi.EMPTY;
-        font = createFont("OCRAStd", 27);
+        font = createFont("OCRAStd", 18);
         textFont(font);
         sound = new Sound(parent);
         playSound();
@@ -44,6 +45,10 @@ class Modus {
 
         if (modus == Modi.RESULT) {
             text = resultText;
+
+            if (result.getRisk() == "High") {
+                drawRisk();
+            }
         }
 
         textAlign(LEFT);
@@ -75,6 +80,10 @@ class Modus {
 
         if (modus == Modi.RESULT) {
             sound.play("scanning_complete");
+
+            if (result.getRisk() == "High") {
+                // sound.play("alarm");
+            }
         }
     }
 
@@ -84,6 +93,16 @@ class Modus {
 
     boolean is(int aModus) {
         return aModus == modus;
+    }
+
+    void drawRisk() {
+        if (frameCount % 30 < 20) {
+            fill(255, 0, 0);
+            rect(width - 300, 30, 290, 30);
+            textAlign(CENTER);
+            fill(255);
+            text("HIGH RISK ALERT!", width - 290, 40, 290, 30);
+        }
     }
 
     void set(int newModus) {
@@ -97,7 +116,7 @@ class Modus {
             playSound();
 
             if (modus == Modi.RESULT) {
-                Result result = new Result();
+                result = new Result();
                 resultText = result.getText();
             }
         } else {
