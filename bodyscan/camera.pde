@@ -111,6 +111,7 @@ class Camera {
         for (int i=0 ; i < userList.length;i++) {
             int userId = userList[i];
 
+
             if (ctx.isTrackingSkeleton(userId)) {
                 if (!modus.is(Modi.RESULT)) {
                     modus.set(Modi.HAS_SKELETON);
@@ -120,6 +121,11 @@ class Camera {
             } else {
                 modus.set(Modi.DETECTED_PERSON);
                 ctx.startTrackingSkeleton(userId);
+            }
+
+            // Something goes wrong with more than one person here!
+            if (userList.length != 1) {
+                break;
             }
         }
     }
