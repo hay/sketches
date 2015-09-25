@@ -1,7 +1,7 @@
 class Result {
-    String result;
-    String risk;
-    String[] risks = { "High", "Medium", "Low" };
+    String result, risk, advice;
+    String[] risks = { "Damaged", "Partly Damaged", "Functioning" };
+    String[] advices = { "DO NOT APPROACH", "APPROACH WITH CAUTION", "SAFE TO APPROACH" };
     String[] posneg = { "+", "-" };
     String[] medical = { "Weak back", "Flat feet", "Migraine", "Stress",
         "Shoulder pain", "RSI", "Bad sight", "Low back pains", "Arthritis",
@@ -14,10 +14,12 @@ class Result {
 
     Result() {
         risk = getRandomString(risks);
+        advice = getRandomString(advices);
 
         result = "Summary\n";
         result += "@ Risk assessment\n";
-        result += "# " + risk + " risk\n";
+        result += "# " + risk + " Homo Sapiens\n";
+        result += advice + "\n";
         result += "\n";
         result += "@ Cost modifier\n";
         result += "# €" + getRandomString(posneg);
@@ -35,7 +37,7 @@ class Result {
         result += "-----\n";
         result += getDate() + "\n";
         result += "Mediquantic inc.\n";
-        result += "All rights reserved.\n";
+        // result += "All rights reserved.\n";
     }
 
     String getLife() {
